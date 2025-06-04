@@ -577,47 +577,34 @@
                   <p class="popup-title__text text-light-base">Subscribe to our waitlist and newsletter. We will keep you updated about the launch.</p>
                 </div>
                 <!-- Popup Title End -->
-
+                
                 <!-- Popup Form Start -->
-                <!-- Popup Form Start -->
-                  <div class="popup-form column">
-                    <div class="form-container">
+<div class="popup-form column">
+  <div class="form-container">
 
-    <!-- Reply Messages (you can remove if not needed with Formsubmit) -->
-                <div class="reply-group subscription-ok" style="display: none;">
-                  <p class="reply-group__title text-light">Done!</p>
-                  <span class="reply-group__text text-light-base">
-                    Thanks for subscribing. We will keep you updated about the launch.
-                  </span>
-                </div>
-                <div class="reply-group subscription-error" style="display: none;">
-                  <p class="reply-group__title text-light">Ooops!</p>
-                  <span class="reply-group__text text-light-base">
-                    Something went wrong. Please try again later.
-                  </span>
-                </div>
-            
-                <!-- Notify Contact Form Start -->
-                <form action="https://formsubmit.co/your@email.com" method="POST" class="form notify-form form-light">
-                  <!-- Redirect after submit -->
-                  <input type="hidden" name="_next" value="https://yourdomain.com/thank-you.html">
-                  
-                  <!-- Disable CAPTCHA -->
-                  <input type="hidden" name="_captcha" value="false">
-            
-                  <!-- Email Input -->
-                  <input type="email" name="email" placeholder="Email Address*" required>
-                  <span class="inputs-description">*Required field</span>
-            
-                  <!-- Submit Button -->
-                  <button class="btn btn-l btn-light" type="submit">Send</button>
-                </form>
-                <!-- Notify Contact Form End -->
-            
-              </div>
-            </div>
-                <!-- Popup Form End -->
+    <!-- Reply Messages -->
+    <div class="reply-group subscription-ok" style="display: none;">
+      <p class="reply-group__title text-light">Done!</p>
+      <span class="reply-group__text text-light-base">
+        Thanks for subscribing. We will keep you updated about the launch.
+      </span>
+    </div>
 
+    <!-- Form Start -->
+    <form action="https://formsubmit.co/sian@wetalentedfew.com" method="POST" target="hidden_iframe" onsubmit="handlePopupSubmit(event)" class="form notify-form form-light">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="email" name="email" placeholder="Email Address*" required>
+      <span class="inputs-description">*Required field</span>
+      <button class="btn btn-l btn-light" type="submit">Send</button>
+    </form>
+    <!-- Form End -->
+
+    <!-- Hidden iframe -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+  </div>
+</div>
+<!-- Popup Form End -->
               </div>
             </div>
           </div>
