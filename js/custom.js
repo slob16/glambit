@@ -517,12 +517,14 @@ $(function() {
       const emailInput = subscribeForm.querySelector('input[name="email"]');
       const submitButton = subscribeForm.querySelector('button[type="submit"]');
   
+      console.log('subscribeForm found. Setting up submit listener.');
       // Initially hide messages if they exist
       if(successMessage) successMessage.style.display = 'none';
       if(errorMessage) errorMessage.style.display = 'none';
   
       subscribeForm.addEventListener('submit', function(event) {
         event.preventDefault(); 
+        console.log('Submit event triggered for subscribeForm.'); 
   
         if(successMessage) successMessage.style.display = 'none';
         if(errorMessage) errorMessage.style.display = 'none';
@@ -534,6 +536,7 @@ $(function() {
         const email = emailInput.value;
         const googleScriptURL = 'https://script.google.com/a/macros/wetalentedfew.com/s/AKfycbyoo1AzrZms__Pzbb_ocuPuNKuaxvj3FRzttd03R5IVfIEhMdus8udFGNT9ku7Skmsp/exec';
   
+        console.log('Attempting to fetch URL:', googleScriptURL, 'with email:', email);
         fetch(googleScriptURL, {
           method: 'POST',
           mode: 'cors',
