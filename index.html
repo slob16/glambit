@@ -430,7 +430,7 @@
                                 <div class="col-12 col-sm-6 contact-data__item">
                                   <h5 class="text-dark">Investor Enquiries</h5>
                                   <p>
-                                    <a class="font-regular" href="mailto:adam@adamvincenthair.com?subject=Message%20from%20your%20site">Contact Us</a>
+                                  <a class="font-regular" id="investorContactLink" href="#" aria-label="Contact investor relations (requires JavaScript)">Contact Us</a>
                                   </p>
                                 </div>
                               </div>
@@ -443,7 +443,8 @@
                     <!-- Content Block - Section Text - End -->
 
                     <!-- Content Block - Features - Start -->
-                    
+                   
+             
                           <!-- Contact Form End  -->
 
                         </div>
@@ -551,7 +552,7 @@
                   <div class="form-container">
 
                     <!-- Reply Messages Start-->
-                     <div class="reply-group subscription-ok">
+                    <div class="reply-group subscription-ok">
                       <p class="reply-group__title text-light">Done!</p>
                       <span class="reply-group__text text-light-base">Thanks for subscribing. We will keep you updated about the launch.</span>
                     </div>
@@ -657,7 +658,20 @@
     <script src="js/modernizr.js"></script>
     <script src="js/custom.js"></script>
     <!-- Load Scripts End -->
-
+   
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const investorLink = document.getElementById('investorContactLink');
+        if (investorLink) {
+          const emailUser = 'adam';
+          const emailDomain = 'adamvincenthair.com';
+          const emailSubject = 'Message%20from%20your%20site';
+          investorLink.setAttribute('href', `mailto:${emailUser}@${emailDomain}?subject=${emailSubject}`);
+          // Optional: Update aria-label if JavaScript successfully sets the href
+          // investorLink.setAttribute('aria-label', 'Contact investor relations'); 
+        }
+      });
+      </script>
   </body>
 
 </html>
