@@ -1,3 +1,5 @@
+console.log('custom.js execution started');
+
 // File name: custom.js
 // ------------------------------------------------
 
@@ -217,10 +219,10 @@ $(function() {
   // --------------------------------------------- //
   // Mailchimp Notify Form Start
   // --------------------------------------------- //
-  $('.notify-form').ajaxChimp({
-    callback: mailchimpCallback,
-    url: 'https://besaba.us10.list-manage.com/subscribe/post?u=e8d650c0df90e716c22ae4778&amp;id=54a7906900'
-  });
+  // $('.notify-form').ajaxChimp({
+  //   callback: mailchimpCallback,
+  //   url: 'https://besaba.us10.list-manage.com/subscribe/post?u=e8d650c0df90e716c22ae4778&id=54a7906900'
+  // });
 
   function mailchimpCallback(resp) {
     if(resp.result === 'success') {
@@ -507,11 +509,12 @@ $(function() {
   // --------------------------------------------- //
   // ParticlesJS Backgrounds End
   // --------------------------------------------- //
-  document.addEventListener('DOMContentLoaded', function() {
+  console.log('jQuery ready: Subscription form logic setup started.');
     // --- Subscription Form Logic ---
     const subscribeForm = document.getElementById('subscribeForm');
     const successMessage = document.querySelector('.subscription-ok');
     const errorMessage = document.querySelector('.subscription-error');
+    const investorLink = document.getElementById('investorLink'); // Declare investorLink here
     
     if (subscribeForm) {
       const emailInput = subscribeForm.querySelector('input[name="email"]');
@@ -546,14 +549,36 @@ $(function() {
           },
           body: new URLSearchParams({ email: email })
         })
-        .then(response => response.json())
+        .then(response => {
+          console.log('Raw Google Script response object:', response);
+          console.log('Google Script response Content-Type:', response.headers.get('Content-Type'));
+          if (!response.ok) {
+            console.error('Google Script response was not OK (status: ' + response.status + ')');
+            // Attempt to get text even if not ok, for debugging
+            return response.text().then(text => { 
+              throw new Error('Network response was not ok. Status: ' + response.status + ', Body: ' + text);
+            });
+          }
+          return response.json();
+        })
         .then(data => {
+          console.log('Parsed Google Script response data:', data);
           if (data.result === "success") {
-            if(successMessage) successMessage.style.display = 'block';
+            console.log('Google Script reported success. Attempting to show success message.');
+            console.log('successMessage element:', successMessage);
+            if(successMessage) {
+              successMessage.style.display = 'block';
+              successMessage.style.opacity = '1';
+              successMessage.style.visibility = 'visible';
+            }
             if(subscribeForm) subscribeForm.style.display = 'none'; 
           } else {
+            console.log('Google Script reported error or data.result was not "success". Data:', data);
+            console.log('errorMessage element:', errorMessage);
             if(errorMessage) {
               errorMessage.style.display = 'block';
+              errorMessage.style.opacity = '1';
+              errorMessage.style.visibility = 'visible';
               const errorTextElement = errorMessage.querySelector('.reply-group__text');
               if (errorTextElement && data.message) {
                 errorTextElement.textContent = data.message;
@@ -580,14 +605,19 @@ $(function() {
             submitButton.disabled = false;
             submitButton.textContent = 'Send';
           }
-        });
-        if (investorLink) {
+        }); // End of .catch()
+
+        // investorLink logic, inside submit event listener, after fetch promise chain
+        if (investorLink) { 
           const emailUser = 'adam';
           const emailDomain = 'adamvincenthair.com';
           const emailSubject = 'Message%20from%20your%20site';
           investorLink.setAttribute('href', `mailto:${emailUser}@${emailDomain}?subject=${emailSubject}`);
         }
-      }); 
-    } // Closes if (subscribeForm)
-    });
-});     // Closes $(function() { ... })
+      }); // End of subscribeForm.addEventListener
+    } else { // This is the 'else' for 'if (subscribeForm)'
+      console.log('subscribeForm NOT found by getElementById.');
+    }
+    // The DOMContentLoaded listener is closed by the '});' on the next line (originally line 652).
+
+});     // Closes $(function() { ... }) from line 85
