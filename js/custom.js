@@ -1,13 +1,3 @@
-// ------------------------------------------------
-// Project Name: Allurio - Coming Soon & Portfolio Template
-// Project Description: Allurio - versatile and trendy coming soon & portfolio template to kick-start your project
-// Tags: mix_design, allurio, coming soon, under construction, template, coming soon page, landing page, one page, html5, css3
-// Version: 2.0.4
-// Build Date: September 2019
-// Last Update: January 2024
-// This product is available exclusively on Themeforest
-// Author: mix_design
-// Author URI: https://themeforest.net/user/mix_design
 // File name: custom.js
 // ------------------------------------------------
 
@@ -517,5 +507,84 @@ $(function() {
   // --------------------------------------------- //
   // ParticlesJS Backgrounds End
   // --------------------------------------------- //
-
-});
+  document.addEventListener('DOMContentLoaded', function() {
+    // --- Subscription Form Logic ---
+    const subscribeForm = document.getElementById('subscribeForm');
+    const successMessage = document.querySelector('.subscription-ok');
+    const errorMessage = document.querySelector('.subscription-error');
+    
+    if (subscribeForm) {
+      const emailInput = subscribeForm.querySelector('input[name="email"]');
+      const submitButton = subscribeForm.querySelector('button[type="submit"]');
+  
+      // Initially hide messages if they exist
+      if(successMessage) successMessage.style.display = 'none';
+      if(errorMessage) errorMessage.style.display = 'none';
+  
+      subscribeForm.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+  
+        if(successMessage) successMessage.style.display = 'none';
+        if(errorMessage) errorMessage.style.display = 'none';
+        if(submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Sending...';
+        }
+  
+        const email = emailInput.value;
+        const googleScriptURL = 'https://script.google.com/a/macros/wetalentedfew.com/s/AKfycbyoo1AzrZms__Pzbb_ocuPuNKuaxvj3FRzttd03R5IVfIEhMdus8udFGNT9ku7Skmsp/exec';
+  
+        fetch(googleScriptURL, {
+          method: 'POST',
+          mode: 'cors',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({ email: email })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.result === "success") {
+            if(successMessage) successMessage.style.display = 'block';
+            if(subscribeForm) subscribeForm.style.display = 'none'; 
+          } else {
+            if(errorMessage) {
+              errorMessage.style.display = 'block';
+              const errorTextElement = errorMessage.querySelector('.reply-group__text');
+              if (errorTextElement && data.message) {
+                errorTextElement.textContent = data.message;
+              } else if (errorTextElement) {
+                errorTextElement.textContent = 'An error occurred. Please try again.';
+              }
+            }
+            if(submitButton) {
+              submitButton.disabled = false;
+              submitButton.textContent = 'Send';
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error submitting to Google Script:', error);
+          if(errorMessage) {
+            errorMessage.style.display = 'block';
+            const errorTextElement = errorMessage.querySelector('.reply-group__text');
+            if (errorTextElement) {
+              errorTextElement.textContent = 'An unexpected error occurred. Please try again.';
+            }
+          }
+          if(submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Send';
+          }
+        });
+        if (investorLink) {
+          const emailUser = 'adam';
+          const emailDomain = 'adamvincenthair.com';
+          const emailSubject = 'Message%20from%20your%20site';
+          investorLink.setAttribute('href', `mailto:${emailUser}@${emailDomain}?subject=${emailSubject}`);
+        }
+      }); 
+    } // Closes if (subscribeForm)
+    });
+});     // Closes $(function() { ... })
