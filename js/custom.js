@@ -609,8 +609,8 @@ $(function() {
 
         // investorLink logic, inside submit event listener, after fetch promise chain
         if (investorLink) { 
-          const emailUser = 'adam';
-          const emailDomain = 'adamvincenthair.com';
+          const emailUser = 'investor';
+          const emailDomain = 'myglambit.com';
           const emailSubject = 'Message%20from%20your%20site';
           investorLink.setAttribute('href', `mailto:${emailUser}@${emailDomain}?subject=${emailSubject}`);
         }
